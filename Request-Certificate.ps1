@@ -108,6 +108,9 @@ Path to which the pfx file should be saved when -Export is specified.
 .PARAMETER Password
 Specify the Password (as plain String or SecureString) used on the export.
 
+.PARAMETER Email
+Specify Email for certificate owner contact information
+
 .INPUTS
 System.String
 Common name for the subject, SAN , Country, State etc. of the certificate(s) as a string 
@@ -219,6 +222,8 @@ Param(
     [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)]
     [string]$Department,
     [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)]
+    [switch]$Email,
+    [Parameter(Mandatory = $False, ValueFromPipelineByPropertyName = $True)]
     [switch]$AddCNinSAN,
     [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $True, ParameterSetName='Export')]
     [switch]$Export,
@@ -265,7 +270,7 @@ PROCESS {
     Write-Verbose "Generating request inf file"
     $file = @"
 [NewRequest]
-Subject = "CN=$CN,c=$Country, s=$State, l=$City, o=$Organisation, ou=$Department"
+Subject = "CN=$CN,c=$Country, s=$State, l=$City, o=$Organisation, ou=$Department,"
 MachineKeySet = TRUE
 KeyLength = $KeyLength
 KeySpec=1
